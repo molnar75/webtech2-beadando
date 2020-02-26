@@ -14,3 +14,9 @@
     color: red;
     font-size: 18px;
 }
+
+body {
+    background-size: 100% auto;
+    background-image: url('../bakcground_image.jpg');
+    background-color: #cccccc;
+   }

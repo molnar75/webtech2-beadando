@@ -1,10 +1,11 @@
 import React from 'react';
 import * as BS from 'react-bootstrap';
-import MainPage from '../main/main.page'
 import './login.css'
 import { User } from '../models/user';
 
-export interface LoginPageProps{}
+export interface LoginPageProps{
+    onPageChange: Function;
+}
 
 export interface LoginPageStates{
     isLoginCorrect: boolean;
@@ -43,6 +44,7 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageStates> {
                     this.setState({
                         isLoginCorrect: true
                     })
+                    this.props.onPageChange('books')
                 }
             }
             if (!this.state.isLoginCorrect) {
@@ -77,31 +79,28 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageStates> {
   render() {
     return (
         <div>
-            { (!this.state.isLoginCorrect &&
-                <div style={{marginLeft: '10%'}}>
-                    <div style={{textAlign: 'center', width: '40%'}}>
-                        <h1 className='welcomeMessage'>Welcome!</h1>
-                    </div>
-                    <div className='loginForm'>
-                        <BS.Form>
-                            <BS.Form.Group controlId="formBasicEmail">
-                                <BS.Form.Label>Username</BS.Form.Label>
-                                <BS.Form.Control onChange={(username: any) => this.onUsernameChange(username)} type="email" placeholder="Enter username" />
-                            </BS.Form.Group>
-                        
-                            <BS.Form.Group controlId="formBasicPassword">
-                                <BS.Form.Label>Password</BS.Form.Label>
-                                <BS.Form.Control onChange={(password: any) => this.onPasswordChange(password)} type="password" placeholder="Enter password" />
-                            </BS.Form.Group>
-                            <p className='errorMessage'>{this.state.error ? this.state.error : ''}</p>
-                            <BS.Button variant="outline-dark" onClick={(event: any) => this.onSubmit(event)}>
-                                Submit
-                            </BS.Button>
-                        </BS.Form>
-                    </div>
-                </div>)
-            }
-            { (this.state.isLoginCorrect && <MainPage/>)}
+            <div style={{marginLeft: '10%'}}>
+                <div style={{textAlign: 'center', width: '40%'}}>
+                    <h1 className='welcomeMessage'>Welcome!</h1>
+                </div>
+                <div className='loginForm'>
+                    <BS.Form>
+                        <BS.Form.Group controlId="formBasicEmail">
+                            <BS.Form.Label>Username</BS.Form.Label>
+                            <BS.Form.Control onChange={(username: any) => this.onUsernameChange(username)} type="email" placeholder="Enter username" />
+                        </BS.Form.Group>
+                    
+                        <BS.Form.Group controlId="formBasicPassword">
+                            <BS.Form.Label>Password</BS.Form.Label>
+                            <BS.Form.Control onChange={(password: any) => this.onPasswordChange(password)} type="password" placeholder="Enter password" />
+                        </BS.Form.Group>
+                        <p className='errorMessage'>{this.state.error ? this.state.error : ''}</p>
+                        <BS.Button variant="outline-dark" onClick={(event: any) => this.onSubmit(event)}>
+                            Submit
+                        </BS.Button>
+                    </BS.Form>
+                </div>
+            </div>)
         </div>
     );
   }
