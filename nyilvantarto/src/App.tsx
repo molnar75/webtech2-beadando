@@ -8,8 +8,9 @@ import { Author } from './models/author';
 import Header from './header/header';
 import Authors from './authors/authors';
 import Publishers from './publishers/publishers';
+import Modal from './modal/modal';
 
-enum Pages {
+export enum Pages {
   LOGIN = 'login',
   BOOKS = 'books',
   AUTHORS = 'authors',
@@ -23,6 +24,8 @@ export interface AppStates {
   booksMock: Book[];
   authorsMock: Author[];
   publishersMock: Publisher[];
+  showModal: boolean;
+  modalType: Pages;
 }
 
 class App extends React.Component<AppProps, AppStates> {
@@ -56,15 +59,28 @@ constructor(props: AppProps) {
       {name: 'test', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1960},
       {name: 'test2', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1985},
       {name: 'test3', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1975}
-    ]
+    ],
+    showModal: false,
+    modalType: Pages.AUTHORS
   }
-
-  
 }
 
 setPage = (page: Pages) => {
   this.setState({
     page: page
+  })
+}
+
+showModal(type: Pages) {
+  this.setState({
+    showModal: true,
+    modalType: type
+  })
+}
+
+onModalClose() {
+  this.setState({
+    showModal: false
   })
 }
 
@@ -87,17 +103,28 @@ setPage = (page: Pages) => {
           this.state.page === 'books' && 
           <Books 
             books={this.state.booksMock}
+            showModal={(type: Pages) => this.showModal(type)}
           />
           }
         { this.state.page === 'authors' && 
           <Authors
             authors={this.state.authorsMock}
+            showModal={(type: Pages) => this.showModal(type)}
           />
         }
         { this.state.page === 'publishers' &&
           <Publishers
             publishers={this.state.publishersMock}
+            showModal={(type: Pages) => this.showModal(type)}
           />
+        }
+        { this.state.showModal &&
+          <Modal
+            onModalClose={() => this.onModalClose()}
+            type={this.state.modalType}
+            authors={this.state.authorsMock}
+            publishers={this.state.publishersMock}
+          ></Modal>
         }
       </div>
     );

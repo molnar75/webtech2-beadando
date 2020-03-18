@@ -25,3 +25,13 @@ code {
   width: 70%;
   border-radius: 10px
 }
+
+.adNewButton {
+  float: right;
+  margin-top: 10px;
+  background-color: rgba(77, 95, 102, 0.8);
+}
+
+.form-control {
+  margin-left: 5px;
+}
