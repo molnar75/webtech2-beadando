@@ -59,7 +59,7 @@ onPopupClose(result: boolean) {
                   <tr key={publisher.name}>
                     <td>{publisher.name}</td>
                     <td>{publisher.address}</td>
-                    <td>{publisher.foundationYear}</td>
+                    <td>{publisher.fundationYear}</td>
                     <td align="center" style={{width: '10%'}}>
                       <BS.Button onClick={() => this.onDelete(publisher)} variant="danger">Delete</BS.Button>
                     </td>

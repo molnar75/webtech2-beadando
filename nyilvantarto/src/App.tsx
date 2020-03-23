@@ -35,7 +35,7 @@ constructor(props: AppProps) {
   const publisherMock: Publisher = {
     name: 'testPublisher',
     address: 'testAddress',
-    foundationYear: 2000
+    fundationYear: 2000
   }
   const authorMock: Author = {
     penName: 'TestAuthor',
@@ -56,9 +56,9 @@ constructor(props: AppProps) {
       {penName: 'penName3', realName: 'realName3' , birthYear: 1975}
     ],
     publishersMock: [
-      {name: 'test', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1960},
-      {name: 'test2', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1985},
-      {name: 'test3', address: '3580 Tiszaújváros Izabella út 8.' , foundationYear: 1975}
+      {name: 'test', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1960},
+      {name: 'test2', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1985},
+      {name: 'test3', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1975}
     ],
     showModal: false,
     modalType: Pages.AUTHORS
