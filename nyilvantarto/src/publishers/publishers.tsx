@@ -3,14 +3,18 @@ import * as BS from 'react-bootstrap';
 import { Publisher } from '../models/publisher';
 import { Pages } from '../App'
 import Popup from '../modal/popup';
+import { Author } from '../models/author';
+import { Book } from '../models/book';
 
 export interface PublishersProps{
   publishers: Publisher[];
   showModal: ((type: Pages) => void)
+  onDelete: (type: Pages, object: Author | Book | Publisher) => void;
 }
 
 export interface PublishersStates{
   showPopup: boolean
+  publisherToDelete: Publisher;
 }
 
 class Publishers extends React.Component<PublishersProps, PublishersStates> {
@@ -18,13 +22,19 @@ class Publishers extends React.Component<PublishersProps, PublishersStates> {
     super(props)
 
     this.state = {
-      showPopup: false
+      showPopup: false, 
+      publisherToDelete: {
+        name: '',
+        address: '',
+        fundationYear: 0
+      }
     }
 }
 
 onDelete(publisher: Publisher) {
   this.setState({
-    showPopup: true
+    showPopup: true,
+    publisherToDelete: publisher
   });
 }
 
@@ -33,7 +43,7 @@ onPopupClose(result: boolean) {
     showPopup: false
   });
   if (result) {
-    console.log('delete')
+    this.props.onDelete(Pages.PUBLISHERS, this.state.publisherToDelete)
   }
 }
 

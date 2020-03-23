@@ -9,6 +9,7 @@ import { Error } from '../models/error';
 
 export interface ModalProps{
   onModalClose: () => void;
+  onSave: (type: Pages, object: Author | Book | Publisher) => void;
   type: Pages;
   authors: Author[];
   publishers: Publisher[];
@@ -89,11 +90,8 @@ class Modal extends React.Component<ModalProps, ModalStates> {
               this.setState({
                 showPopup: true
               });
-        } else {
-          console.log('error')
         }
       }
-
       if (this.props.type === Pages.BOOKS) {
         if (this.validateElement(this.state.newBook.pageNumber) &&
             this.validateElement(this.state.newBook.publicationYear) &&
@@ -104,8 +102,6 @@ class Modal extends React.Component<ModalProps, ModalStates> {
               this.setState({
                 showPopup: true
               });
-        } else {
-          console.log('error')
         }
       }
       if (this.props.type === Pages.PUBLISHERS) {
@@ -116,9 +112,7 @@ class Modal extends React.Component<ModalProps, ModalStates> {
               this.setState({
                 showPopup: true
               });
-        } else {
-          console.log('error')
-        }
+        } 
       }
     }
 
@@ -127,7 +121,17 @@ class Modal extends React.Component<ModalProps, ModalStates> {
         showPopup:false
       })
       if (result) {
-        console.log('save')
+        switch(this.props.type) {
+          case Pages.AUTHORS:
+            this.props.onSave(Pages.AUTHORS, this.state.newAuthor);
+            break;
+          case Pages.BOOKS:
+            this.props.onSave(Pages.BOOKS, this.state.newBook);
+            break;
+          case Pages.PUBLISHERS:
+            this.props.onSave(Pages.PUBLISHERS, this.state.newPublisher);
+            break;
+        } 
       } 
     }
 

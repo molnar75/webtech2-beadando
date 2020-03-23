@@ -3,28 +3,50 @@ import * as BS from 'react-bootstrap';
 import { Book } from '../models/book';
 import { Pages } from '../App'
 import Popup from '../modal/popup';
+import { Author } from '../models/author';
+import { Publisher } from '../models/publisher';
 
 export interface BooksProps{
   books: Book[];
-  showModal: ((type: Pages)=> void)
+  showModal: ((type: Pages)=> void);
+  onDelete: (type: Pages, object: Author | Book | Publisher) => void;
 }
 
 export interface BooksStates{
-  showPopup: boolean
+  showPopup: boolean;
+  bookToDelete: Book;
 }
 
 class Books extends React.Component<BooksProps, BooksStates> {
   constructor(props: BooksProps){
     super(props)
 
+    const newAuthor: Author = {
+      penName: '',
+      realName: '',
+      birthYear: 0
+    };
+    const newPublisher: Publisher = {
+      name: '',
+      address: '',
+      fundationYear: 0
+    };
     this.state = {
-      showPopup: false
+      showPopup: false, 
+      bookToDelete: {
+        title: '',
+        pageNumber: 0,
+        publicationYear: 0,
+        publisher: newPublisher,
+        author: newAuthor
+      }
     }
 }
 
 onDelete(book: Book) {
   this.setState({
-    showPopup: true
+    showPopup: true,
+    bookToDelete: book
   });
 }
 
@@ -33,7 +55,7 @@ onPopupClose(result: boolean) {
     showPopup: false
   });
   if (result) {
-    console.log('delete')
+    this.props.onDelete(Pages.BOOKS, this.state.bookToDelete)
   }
 }
 

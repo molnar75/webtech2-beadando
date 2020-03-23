@@ -84,6 +84,50 @@ onModalClose() {
   })
 }
 
+onSave(type: Pages, object: Author | Book | Publisher) {
+  this.setState({
+    showModal: false
+  })
+  switch(type) {
+    case Pages.AUTHORS:
+      this.state.authorsMock.push(object as Author);
+      break;
+    case Pages.BOOKS:
+      this.state.booksMock.push(object as Book);
+      break;
+    case Pages.PUBLISHERS:
+      this.state.publishersMock.push(object as Publisher)
+      break;
+  } 
+}
+
+onDelete(type: Pages, object: Author | Book | Publisher) {
+  if (type === Pages.AUTHORS) {
+    let author = object as Author;
+    for (let i = 0; i < this.state.authorsMock.length; i++) {
+      if (author.penName === this.state.authorsMock[i].penName) {
+        this.state.authorsMock.splice(i, 1)
+      }
+    }
+  }
+  if (type === Pages.BOOKS) {
+    let book = object as Book;
+    for (let i = 0; i < this.state.booksMock.length; i++) {
+      if (book.title === this.state.booksMock[i].title) {
+        this.state.booksMock.splice(i, 1)
+      }
+    }
+  }
+  if (type === Pages.PUBLISHERS) {
+    let publisher = object as Publisher;
+    for (let i = 0; i < this.state.publishersMock.length; i++) {
+      if (publisher.name === this.state.publishersMock[i].name) {
+        this.state.publishersMock.splice(i, 1)
+      }
+    }
+  }
+}
+
   render() {
     return (
       <div>
@@ -104,23 +148,27 @@ onModalClose() {
           <Books 
             books={this.state.booksMock}
             showModal={(type: Pages) => this.showModal(type)}
+            onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
           }
         { this.state.page === 'authors' && 
           <Authors
             authors={this.state.authorsMock}
             showModal={(type: Pages) => this.showModal(type)}
+            onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
         }
         { this.state.page === 'publishers' &&
           <Publishers
             publishers={this.state.publishersMock}
             showModal={(type: Pages) => this.showModal(type)}
+            onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
         }
         { this.state.showModal &&
           <Modal
             onModalClose={() => this.onModalClose()}
+            onSave={(type: Pages, object: Author | Book | Publisher) => this.onSave(type, object)}
             type={this.state.modalType}
             authors={this.state.authorsMock}
             publishers={this.state.publishersMock}

@@ -3,14 +3,19 @@ import * as BS from 'react-bootstrap';
 import { Author } from '../models/author';
 import { Pages } from '../App'
 import Popup from '../modal/popup';
+import { Book } from '../models/book';
+import { Publisher } from '../models/publisher';
 
 export interface AuthorsProps{
   authors: Author[];
   showModal: ((type: Pages) => void);
+  onDelete: (type: Pages, object: Author | Book | Publisher) => void;
+
 }
 
 export interface AuthorsStates{
   showPopup: boolean;
+  authorToDelete: Author;
 }
 
 class Authors extends React.Component<AuthorsProps, AuthorsStates> {
@@ -18,13 +23,19 @@ class Authors extends React.Component<AuthorsProps, AuthorsStates> {
     super(props)
 
     this.state = {
-      showPopup: false
+      showPopup: false, 
+      authorToDelete: {
+        penName: '',
+        realName: '',
+        birthYear: 0
+      }
     }
   }
 
   onDelete(author: Author) {
     this.setState({
-      showPopup: true
+      showPopup: true,
+      authorToDelete: author
     });
   }
 
@@ -33,7 +44,7 @@ class Authors extends React.Component<AuthorsProps, AuthorsStates> {
       showPopup: false
     });
     if (result) {
-      console.log('delete')
+      this.props.onDelete(Pages.AUTHORS, this.state.authorToDelete)
     }
   }
 
