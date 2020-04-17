@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.css';
-import LoginPage from './login/login.page';
-import Books from './books/books';
-import { Book } from './models/book';
-import { Publisher } from './models/publisher';
-import { Author } from './models/author';
-import Header from './header/header';
-import Authors from './authors/authors';
-import Publishers from './publishers/publishers';
-import Modal from './modal/modal';
+import LoginPage from './components/login/login.page';
+import Books from './components/books/books';
+import { Book } from './components/models/book';
+import { Publisher } from './components/models/publisher';
+import { Author } from './components/models/author';
+import { User } from './components/models/user';
+import Header from './components/header/header';
+import Authors from './components/authors/authors';
+import Publishers from './components/publishers/publishers';
+import Modal from './components/modal/modal';
+import axios from 'axios';
 
 export enum Pages {
   LOGIN = 'login',
@@ -21,9 +23,10 @@ export interface AppProps {}
 
 export interface AppStates {
   page: Pages;
-  booksMock: Book[];
-  authorsMock: Author[];
-  publishersMock: Publisher[];
+  books: Book[];
+  authors: Author[];
+  publishers: Publisher[];
+  users: User[];
   showModal: boolean;
   modalType: Pages;
 }
@@ -32,37 +35,67 @@ class App extends React.Component<AppProps, AppStates> {
 
 constructor(props: AppProps) {
   super(props)
-  const publisherMock: Publisher = {
-    name: 'testPublisher',
-    address: 'testAddress',
-    fundationYear: 2000
-  }
-  const authorMock: Author = {
-    penName: 'TestAuthor',
-    realName: 'TestAuthorReal',
-    birthYear: 1968
-  }
 
   this.state = {
     page: Pages.BOOKS,
-    booksMock: [
-      {title: 'test', pageNumber: 240, publicationYear: 2010, publisher: publisherMock, author: authorMock},
-      {title: 'test2', pageNumber: 300, publicationYear: 2000, publisher: publisherMock, author: authorMock},
-      {title: 'test3', pageNumber: 40, publicationYear: 2015, publisher: publisherMock, author: authorMock}
-    ],
-    authorsMock: [
-      {penName: 'penName', realName: 'realName' , birthYear: 1960},
-      {penName: 'penName2', realName: 'realName2' , birthYear: 1985},
-      {penName: 'penName3', realName: 'realName3' , birthYear: 1975}
-    ],
-    publishersMock: [
-      {name: 'test', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1960},
-      {name: 'test2', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1985},
-      {name: 'test3', address: '3580 Tiszaújváros Izabella út 8.' , fundationYear: 1975}
-    ],
+    books: [],
+    authors: [],
+    publishers: [],
+    users: [],
     showModal: false,
     modalType: Pages.AUTHORS
   }
+}
+
+componentDidMount() {
+  this.getDatas();
+}
+
+getDatas = () => {
+  axios.get("http://localhost:9000/getAllUsers")
+    .then(res => {
+       this.setState({
+         users: res.data
+       })
+    })
+
+  axios.get("http://localhost:9000/authors/getAllAuthors")
+  .then(res => {
+      this.setState({
+        authors: res.data
+      })
+  })
+
+  axios.get("http://localhost:9000/publishers/getAllPublishers")
+  .then(res => {
+      this.setState({
+        publishers: res.data
+      })
+  })
+
+  axios.get("http://localhost:9000/books/getAllBooks")
+  .then(res => {
+      this.getAuhtorsAndPublishers(res.data);
+  })
+}
+
+getAuhtorsAndPublishers = (req: any) => {
+  const books: Book[] = req;
+  for (let i = 0; i < req.length; i++) {
+    for (const publisher of this.state.publishers) {
+      if (req[i].publisher_name === publisher.name) {
+          books[i].publisher = publisher;
+      }
+    }
+    for (const author of this.state.authors) {
+      if (req[i].author_name === author.penName) {
+          books[i].author = author;
+      }
+    }
+  }
+  this.setState({
+    books: books
+  })
 }
 
 setPage = (page: Pages) => {
@@ -90,13 +123,31 @@ onSave(type: Pages, object: Author | Book | Publisher) {
   })
   switch(type) {
     case Pages.AUTHORS:
-      this.state.authorsMock.push(object as Author);
+      const author = object as Author;
+      axios.post("http://localhost:9000/authors/createAuthor", author)
+      .then(res => {
+        if(res) {
+          this.getDatas();
+        }
+      })
       break;
     case Pages.BOOKS:
-      this.state.booksMock.push(object as Book);
+      const book = object as Book;
+      axios.post("http://localhost:9000/books/createBook", book)
+      .then(res => {
+        if(res) {
+          this.getDatas();
+        }
+      })
       break;
     case Pages.PUBLISHERS:
-      this.state.publishersMock.push(object as Publisher)
+      const publisher = object as Publisher
+      axios.post("http://localhost:9000/publishers/createPublisher", publisher)
+      .then(res => {
+        if(res) {
+          this.getDatas();
+        }
+      })
       break;
   } 
 }
@@ -104,27 +155,30 @@ onSave(type: Pages, object: Author | Book | Publisher) {
 onDelete(type: Pages, object: Author | Book | Publisher) {
   if (type === Pages.AUTHORS) {
     let author = object as Author;
-    for (let i = 0; i < this.state.authorsMock.length; i++) {
-      if (author.penName === this.state.authorsMock[i].penName) {
-        this.state.authorsMock.splice(i, 1)
-      }
-    }
+    axios.delete("http://localhost:9000/authors/deleteAuthorByPenName/" + author.penName)
+      .then(res => {
+        if(res.data.ok === 1){
+          this.getDatas();
+        }
+      })
   }
   if (type === Pages.BOOKS) {
     let book = object as Book;
-    for (let i = 0; i < this.state.booksMock.length; i++) {
-      if (book.title === this.state.booksMock[i].title) {
-        this.state.booksMock.splice(i, 1)
-      }
-    }
+    axios.delete("http://localhost:9000/books/deleteBookByTitle/" + book.title)
+      .then(res => {
+        if(res.data.ok === 1){
+          this.getDatas();
+        }
+      })
   }
   if (type === Pages.PUBLISHERS) {
     let publisher = object as Publisher;
-    for (let i = 0; i < this.state.publishersMock.length; i++) {
-      if (publisher.name === this.state.publishersMock[i].name) {
-        this.state.publishersMock.splice(i, 1)
-      }
-    }
+    axios.delete("http://localhost:9000/publishers/deletePublisherByName/" + publisher.name)
+      .then(res => {
+        if(res.data.ok === 1){
+          this.getDatas();
+        }
+      })
   }
 }
 
@@ -141,26 +195,27 @@ onDelete(type: Pages, object: Author | Book | Publisher) {
           this.state.page === 'login' && 
           <LoginPage 
             onPageChange={this.setPage}
+            users={this.state.users}
           /> 
           }
         { 
           this.state.page === 'books' && 
           <Books 
-            books={this.state.booksMock}
+            books={this.state.books}
             showModal={(type: Pages) => this.showModal(type)}
             onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
           }
         { this.state.page === 'authors' && 
           <Authors
-            authors={this.state.authorsMock}
+            authors={this.state.authors}
             showModal={(type: Pages) => this.showModal(type)}
             onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
         }
         { this.state.page === 'publishers' &&
           <Publishers
-            publishers={this.state.publishersMock}
+            publishers={this.state.publishers}
             showModal={(type: Pages) => this.showModal(type)}
             onDelete={(type: Pages, object: Author | Book | Publisher) => this.onDelete(type, object)}
           />
@@ -170,8 +225,8 @@ onDelete(type: Pages, object: Author | Book | Publisher) {
             onModalClose={() => this.onModalClose()}
             onSave={(type: Pages, object: Author | Book | Publisher) => this.onSave(type, object)}
             type={this.state.modalType}
-            authors={this.state.authorsMock}
-            publishers={this.state.publishersMock}
+            authors={this.state.authors}
+            publishers={this.state.publishers}
           ></Modal>
         }
       </div>

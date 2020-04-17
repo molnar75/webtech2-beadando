@@ -1,7 +1,7 @@
 import React from 'react';
 import * as BS from 'react-bootstrap';
 import { Author } from '../models/author';
-import { Pages } from '../App'
+import { Pages } from '../../App'
 import Popup from '../modal/popup';
 import { Book } from '../models/book';
 import { Publisher } from '../models/publisher';

@@ -1,0 +1,27 @@
+[
+    {
+        "_id": 1,
+        "title": "test", 
+        "pageNumber": 240,
+        "publicationYear": 2014,
+        "publisher_id": 1,
+        "author_id": 2
+    },
+    {
+        "_id": 2,
+        "title": "test2", 
+        "pageNumber": 24,
+        "publicationYear": 2011,
+        "publisher_id": 1,
+        "author_id": 1
+    },
+    {
+        "_id": 3,
+        "title": "test3", 
+        "pageNumber": 200,
+        "publicationYear": 2015,
+        "publisher_id": 1,
+        "author_id": 1
+    }
+
+]

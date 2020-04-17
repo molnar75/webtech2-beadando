@@ -1,6 +1,6 @@
 import React from 'react';
 import * as BS from 'react-bootstrap';
-import { Pages } from '../App'
+import { Pages } from '../../App'
 import { Author } from '../models/author';
 import { Publisher } from '../models/publisher';
 import { Book } from '../models/book';
