@@ -1,8 +1,20 @@
 [
     {
         "_id": 1,
-        "name": "test", 
-        "address": "3580 Tiszaújváros Izabella út 8.",
-        "fundationYear": 2010
+        "name": "Bloomsbury Publishing", 
+        "address": "31 Bedford Avenue, London, WC1B 3AT, UK",
+        "fundationYear": 1986
+    },
+    {
+        "_id": 2,
+        "name": "William Collins, Sons", 
+        "address": "Not known",
+        "fundationYear": 1819
+    },
+    {
+        "_id": 3,
+        "name": "Collins Crime Club", 
+        "address": "Not known",
+        "fundationYear": 1930
     }
 ]

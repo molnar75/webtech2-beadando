@@ -1,13 +1,15 @@
-[{
-    "_id": 1,
-    "penName": "PenName1", 
-    "realName": "RealName1",
-    "birthYear": 1960
-},
-{
-    "_id": 2,
-    "penName": "PenName2", 
-    "realName": "RealName2",
-    "birthYear": 1970
-}]
+[
+    {
+        "_id": 1,
+        "penName": "J. K. Rowling", 
+        "realName": "Joanne Kathleen Rowling",
+        "birthYear": 1965
+    },
+    {
+        "_id": 2,
+        "penName": "Agatha Christie", 
+        "realName": "Agatha Mary Clarissa Miller",
+        "birthYear": 1890
+    }
+]
 

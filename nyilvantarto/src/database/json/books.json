@@ -1,27 +1,34 @@
 [
     {
         "_id": 1,
-        "title": "test", 
-        "pageNumber": 240,
-        "publicationYear": 2014,
-        "publisher_id": 1,
-        "author_id": 2
+        "title": "Harry Potter and the Philosopher's Stone", 
+        "pageNumber": 223,
+        "publicationYear": 1997,
+        "publisher_name": "Bloomsbury Publishing",
+        "author_name": "J. K. Rowling"
     },
     {
         "_id": 2,
-        "title": "test2", 
-        "pageNumber": 24,
-        "publicationYear": 2011,
-        "publisher_id": 1,
-        "author_id": 1
+        "title": "Harry Potter and the Prisoner of Azkaban", 
+        "pageNumber": 317,
+        "publicationYear": 1999,
+        "publisher_name": "Bloomsbury Publishing",
+        "author_name": "J. K. Rowling"
     },
     {
         "_id": 3,
-        "title": "test3", 
-        "pageNumber": 200,
-        "publicationYear": 2015,
-        "publisher_id": 1,
-        "author_id": 1
+        "title": "The Murder of Roger Ackroyd", 
+        "pageNumber": 312,
+        "publicationYear": 1926,
+        "publisher_name": "William Collins, Sons",
+        "author_name": "Agatha Christie"
+    },
+    {
+        "_id": 4,
+        "title": "Murder on the Orient Express", 
+        "pageNumber": 256,
+        "publicationYear": 1934,
+        "publisher_name": "Collins Crime Club",
+        "author_name": "Agatha Christie"
     }
-
 ]
