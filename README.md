@@ -9,7 +9,7 @@
     * authors
     * publishers
     * books
-1. Use the json files in the **database/json** folder to fill the collections.
+1. Use the json files in the **src/database/json** folder to fill the collections.
 1. Run **npm install**
 1. Open 2 terminals
     1. Run **npm start** in one terminal (to start the page)
