@@ -71,7 +71,7 @@ class Modal extends React.Component<ModalProps, ModalStates> {
                   author: false
               }
             }
-        }
+          }
     }
 
     onClose() {
@@ -85,7 +85,7 @@ class Modal extends React.Component<ModalProps, ModalStates> {
       if (this.props.type === Pages.AUTHORS) {
         if (this.validateElement(this.state.newAuthor.penName) &&
             this.validateElement(this.state.newAuthor.realName) &&
-            this.validateElement(this.state.newAuthor.birthYear)
+            this.validateNumber(this.state.newAuthor.birthYear)
             ) {
               this.setState({
                 showPopup: true
@@ -93,8 +93,8 @@ class Modal extends React.Component<ModalProps, ModalStates> {
         }
       }
       if (this.props.type === Pages.BOOKS) {
-        if (this.validateElement(this.state.newBook.pageNumber) &&
-            this.validateElement(this.state.newBook.publicationYear) &&
+        if (this.validateNumber(this.state.newBook.pageNumber) &&
+            this.validateNumber(this.state.newBook.publicationYear) &&
             this.validateElement(this.state.newBook.title) &&
             this.validateElement(this.state.newBook.author.penName) &&
             this.validateElement(this.state.newBook.publisher.name)
@@ -107,7 +107,7 @@ class Modal extends React.Component<ModalProps, ModalStates> {
       if (this.props.type === Pages.PUBLISHERS) {
         if (this.validateElement(this.state.newPublisher.name) &&
             this.validateElement(this.state.newPublisher.address) && 
-            this.validateElement(this.state.newPublisher.fundationYear)
+            this.validateNumber(this.state.newPublisher.fundationYear)
             ) {
               this.setState({
                 showPopup: true
@@ -292,6 +292,14 @@ class Modal extends React.Component<ModalProps, ModalStates> {
       }
     }
 
+    validateNumber(element: any) {
+      if(element !== 0 && !isNaN(element)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
   render() {
     return (
         <>
@@ -345,11 +353,11 @@ class Modal extends React.Component<ModalProps, ModalStates> {
                       onBlur={(event: any) => this.onBirthYearChange(event.target.value)}
                       type="text"
                       placeholder="Enter the year of birth"
-                      isValid={this.state.isTouched.author.birthYear && this.validateElement(this.state.newAuthor.birthYear)}
-                      isInvalid={this.state.isTouched.author.birthYear && !this.validateElement(this.state.newAuthor.birthYear)} 
+                      isValid={this.state.isTouched.author.birthYear && this.validateNumber(this.state.newAuthor.birthYear)}
+                      isInvalid={this.state.isTouched.author.birthYear && !this.validateNumber(this.state.newAuthor.birthYear)} 
                     />
                     <BS.Form.Control.Feedback type="invalid">
-                      This field is required!
+                      {(this.state.newAuthor.birthYear === 0) ? 'This field is required!' : 'This is not a valid number!'}
                     </BS.Form.Control.Feedback>
                   </BS.Form.Group>
                 </BS.Form>
@@ -402,11 +410,11 @@ class Modal extends React.Component<ModalProps, ModalStates> {
                           onBlur={(event: any) => this.onPageNumberChange(event.target.value)}
                           type="text"
                           placeholder="Enter number of pages"
-                          isValid={this.state.isTouched.book.pageNumber && this.validateElement(this.state.newBook.pageNumber)}
-                          isInvalid={this.state.isTouched.book.pageNumber && !this.validateElement(this.state.newBook.pageNumber)} 
+                          isValid={this.state.isTouched.book.pageNumber && this.validateNumber(this.state.newBook.pageNumber)}
+                          isInvalid={this.state.isTouched.book.pageNumber && !this.validateNumber(this.state.newBook.pageNumber)} 
                         />
                         <BS.Form.Control.Feedback type="invalid">
-                          This field is required!
+                        {(this.state.newBook.pageNumber === 0) ? 'This field is required!' : 'This is not a valid number!'}
                         </BS.Form.Control.Feedback>
                       </BS.Form.Group>
                     </BS.Col>
@@ -418,11 +426,11 @@ class Modal extends React.Component<ModalProps, ModalStates> {
                           onBlur={(event: any) => this.onPublicationChange(event.target.value)}
                           type="text"
                           placeholder="Enter the year of publication"
-                          isValid={this.state.isTouched.book.publicationYear && this.validateElement(this.state.newBook.publicationYear)}
-                          isInvalid={this.state.isTouched.book.publicationYear && !this.validateElement(this.state.newBook.publicationYear)}  
+                          isValid={this.state.isTouched.book.publicationYear && this.validateNumber(this.state.newBook.publicationYear)}
+                          isInvalid={this.state.isTouched.book.publicationYear && !this.validateNumber(this.state.newBook.publicationYear)}  
                         />
                         <BS.Form.Control.Feedback type="invalid">
-                          This field is required!
+                        {(this.state.newBook.publicationYear === 0) ? 'This field is required!' : 'This is not a valid number!'}
                         </BS.Form.Control.Feedback>
                       </BS.Form.Group>
                     </BS.Col>
@@ -488,11 +496,11 @@ class Modal extends React.Component<ModalProps, ModalStates> {
                         onBlur={(event: any) => this.onFundationYearCHange(event.target.value)}
                         type="text"
                         placeholder="Enter the year of fundation"
-                        isValid={this.state.isTouched.publisher.fundationYear && this.validateElement(this.state.newPublisher.fundationYear)}
-                        isInvalid={this.state.isTouched.publisher.fundationYear  && !this.validateElement(this.state.newPublisher.fundationYear)} 
+                        isValid={this.state.isTouched.publisher.fundationYear && this.validateNumber(this.state.newPublisher.fundationYear)}
+                        isInvalid={this.state.isTouched.publisher.fundationYear  && !this.validateNumber(this.state.newPublisher.fundationYear)} 
                       />
                       <BS.Form.Control.Feedback type="invalid">
-                        This field is required!
+                      {(this.state.newPublisher.fundationYear === 0) ? 'This field is required!' : 'This is not a valid number!'}
                       </BS.Form.Control.Feedback>
                     </BS.Form.Group>
               </BS.Form>
