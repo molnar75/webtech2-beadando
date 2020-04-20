@@ -31,10 +31,10 @@ router.delete('/deleteAuthorByPenName/:penName', async (req, res) => {
 
 router.post('/createAuthor', async (req, res) => {
 
-    let author = await Author.findOne({ penName: req.body.penName, realName: req.body.realName });
+    let author = await Author.findOne({ penName: req.body.penName});
 
     if (author) {
-        return res.status(400).send('The author: ' + req.body.penName + ' already exists!');
+        return res.json({"error": true});
     } else {
         author = new Author({
             penName: req.body.penName,

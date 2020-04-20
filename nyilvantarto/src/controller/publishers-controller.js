@@ -34,7 +34,7 @@ router.post('/createPublisher', async (req, res) => {
     let publisher = await Publisher.findOne({ name: req.body.name });
 
     if (publisher) {
-        return res.status(400).send('The publisher: ' + req.body.name + ' already exists!');
+        return res.json({"error": true});
     } else {
         publisher = new Publisher({
             name: req.body.name,

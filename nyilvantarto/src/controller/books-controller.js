@@ -25,7 +25,7 @@ router.post('/createBook', async (req, res) => {
     let book = await Book.findOne({ title: req.body.title });
 
     if (book) {
-        return res.status(400).send('The book: ' + req.body.title + ' already exists!');
+        return res.json({"error": true});
     } else {
         book = new Book({
             title: req.body.title,

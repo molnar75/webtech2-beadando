@@ -37,7 +37,7 @@ constructor(props: AppProps) {
   super(props)
 
   this.state = {
-    page: Pages.BOOKS,
+    page: Pages.LOGIN,
     books: [],
     authors: [],
     publishers: [],
@@ -126,8 +126,12 @@ onSave(type: Pages, object: Author | Book | Publisher) {
       const author = object as Author;
       axios.post("http://localhost:9000/authors/createAuthor", author)
       .then(res => {
-        if(res) {
+        if (res.data.error !== true) {
           this.getDatas();
+        } else {
+          if (res.data.error === true) {
+            alert('An author with this name is already exists!')
+          }
         }
       })
       break;
@@ -135,8 +139,12 @@ onSave(type: Pages, object: Author | Book | Publisher) {
       const book = object as Book;
       axios.post("http://localhost:9000/books/createBook", book)
       .then(res => {
-        if(res) {
+        if (res.data.error !== true) {
           this.getDatas();
+        } else {
+          if (res.data.error === true) {
+            alert('A book with this title is already exists!')
+          }
         }
       })
       break;
@@ -144,8 +152,12 @@ onSave(type: Pages, object: Author | Book | Publisher) {
       const publisher = object as Publisher
       axios.post("http://localhost:9000/publishers/createPublisher", publisher)
       .then(res => {
-        if(res) {
+        if (res.data.error !== true) {
           this.getDatas();
+        } else {
+          if (res.data.error === true) {
+            alert('A publisher with this name is already exists!')
+          }
         }
       })
       break;
